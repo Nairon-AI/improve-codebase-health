@@ -1,0 +1,11 @@
+{
+  "name": "improve-codebase-health",
+  "version": "0.1.0",
+  "description": "Scoped code-health steward for safer human and AI-assisted engineering.",
+  "skills": [
+    {
+      "name": "improve-codebase-health",
+      "path": "skills/improve-codebase-health/SKILL.md"
+    }
+  ]
+}

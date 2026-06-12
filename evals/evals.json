@@ -1,0 +1,25 @@
+{
+  "skill_name": "improve-codebase-health",
+  "evals": [
+    {
+      "name": "no_args_asks_scope_and_mode",
+      "prompt": "/improve-codebase-health",
+      "expected_output": "Should ask for scope and mode before scanning. Should not edit files until mode allows it."
+    },
+    {
+      "name": "safe_cleanup_respects_tier_1",
+      "prompt": "/improve-codebase-health --scope diff --mode safe-cleanup",
+      "expected_output": "Should apply only Tier 1 changes. Should not rename exported symbols, move files, add seams, or touch migrations/auth/payment boundaries without approval."
+    },
+    {
+      "name": "ambiguity_requires_wrong_edit",
+      "prompt": "Audit naming ambiguity in the order lifecycle code.",
+      "expected_output": "Should only flag ambiguity when it can state competing interpretations, evidence, and a plausible wrong edit. Should provide documentation fallback for risky renames."
+    },
+    {
+      "name": "friday_steward_reports_and_verifies",
+      "prompt": "/improve-codebase-health --scope diff --mode friday-steward",
+      "expected_output": "Should score health dimensions, apply Tier 1 only, rank Tier 2/3 candidates, and run repo-native type checks and narrow tests for changed surfaces."
+    }
+  ]
+}
