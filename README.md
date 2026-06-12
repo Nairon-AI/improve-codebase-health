@@ -242,6 +242,30 @@ Inspect a package:
 
 ## Installation
 
+Run this prompt inside the target repo using Codex or Claude Code:
+
+```text
+Install the Improve Codebase Health skill from https://github.com/Nairon-AI/improve-codebase-health into this repo.
+
+Do the install cleanly:
+- Read this repo's existing AGENTS.md, CLAUDE.md, README.md, and nearest SKILLS.md first.
+- Preserve existing work. Do not overwrite unrelated files.
+- Install the skill from skills/improve-codebase-health into this repo's normal agent skill location.
+- If this repo uses .agents/skills, install it there.
+- If this repo uses .claude/skills, install it there too.
+- If neither exists, create .agents/skills/improve-codebase-health.
+- Add or update a short AGENTS.md/CLAUDE.md note only if the repo already has an agent-skills section.
+- Do not change product code.
+- Verify the skill files exist after install.
+- Show git status, installed paths, and any warnings.
+```
+
+After install, invoke from the target repo:
+
+```text
+/improve-codebase-health
+```
+
 This repo ships a **skill** with a thin **plugin wrapper**:
 
 | Layer | Path | Purpose |
@@ -250,7 +274,7 @@ This repo ships a **skill** with a thin **plugin wrapper**:
 | **Command** | `commands/improve-codebase-health.md` | Slash-command entrypoint |
 | **Plugin Metadata** | `.codex-plugin/plugin.json` | Package metadata so Codex-style plugin installers can discover the skill |
 
-For one product repo, copy the skill into that repo:
+Manual fallback for one product repo:
 
 ```bash
 mkdir -p .agents/skills
@@ -269,12 +293,6 @@ For a Claude Code style install:
 ```bash
 mkdir -p .claude/skills
 cp -R skills/improve-codebase-health .claude/skills/improve-codebase-health
-```
-
-Then invoke from the target repo:
-
-```text
-/improve-codebase-health
 ```
 
 Full setup: [docs/SETUP.md](docs/SETUP.md).
