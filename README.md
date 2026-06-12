@@ -4,8 +4,8 @@
 
 ### Book-grounded code health reviews for safer AI-assisted engineering
 
-**Scope + Evidence + Safety Tiers + Refactor Plans**
-_Find real debt, reduce ambiguity, strengthen tests/types, and keep architecture changes intentional._
+**Weekly Stewardship + Timeless Engineering Principles + Agent-Readable Architecture**
+_Keep the codebase clear enough that humans and coding agents can change it safely._
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Codex Skill](https://img.shields.io/badge/Codex-Skill-111827.svg)](skills/improve-codebase-health/SKILL.md)
@@ -13,7 +13,7 @@ _Find real debt, reduce ambiguity, strengthen tests/types, and keep architecture
 
 ---
 
-_Most codebases do not fail because one file is messy. They fail because unsafe change becomes normal._
+_AI makes code faster to write. It also makes architecture easier to lose touch with._
 
 </div>
 
@@ -23,9 +23,28 @@ _Most codebases do not fail because one file is messy. They fail because unsafe 
 
 Improve Codebase Health is a standalone agent skill for scoped code-health reviews. Run it inside a product repo to inspect a branch, path, PR, issue, recent time window, feature area, or whole codebase.
 
-It is built for Friday hardening: after a week of feature work, the agent reviews what changed, scores code-health risk, applies only boring safe cleanup when allowed, and turns riskier architecture work into explicit plans instead of surprise refactors.
+It is built for weekly codebase stewardship. After a week of feature work, the agent reviews what changed, scores code-health risk, applies only boring safe cleanup when allowed, and turns riskier architecture work into explicit plans instead of surprise refactors.
 
 The review model is grounded in classic software-engineering architecture and testing books. Findings should connect a code symptom to an underlying principle, explain the future failure mode, and propose the smallest safe remedy.
+
+---
+
+## Why this exists
+
+Software engineering principles are timeless: clear boundaries, deep interfaces, strong names, useful tests, local reasoning, and dependency discipline still matter. AI does not remove that. It raises the stakes.
+
+In a v1 codebase, agents can move quickly even when the architecture is fuzzy. By v100, after many small sloppy changes, the same fuzziness becomes brittleness: names drift, interfaces leak, tests protect the wrong things, and nobody fully trusts the shape of the system. Humans can often feel that pain before they can name it. Coding agents usually cannot. They need the pain translated into explicit signals.
+
+Improve Codebase Health turns that felt engineering judgment into a repeatable review habit:
+
+- spot paper cuts before they become local conventions
+- surface major architecture problems before they become expensive rewrites
+- clarify domain language so agents do not make plausible wrong edits
+- keep boundaries, interfaces, tests, and types understandable
+- preserve human understanding of the codebase as it scales
+- make the platform safer for future agents to change
+
+This is not a once-a-quarter cleanup project. It is meant to be embedded in the repo and run regularly, ideally once a week, so codebase health is continuously monitored instead of deferred until everything feels brittle.
 
 ---
 
