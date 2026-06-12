@@ -69,6 +69,59 @@ Ranked handoff                 Applied fixes, approval items, deferred design wo
 
 ---
 
+## Engineering Foundation
+
+Improve Codebase Health reviews architecture and code smells through a classic software-engineering lens, not only style or complexity metrics. Recommendations should connect symptoms in the code to durable principles from books and field-tested engineering practice.
+
+| Source Lens | What It Helps Detect |
+| --- | --- |
+| **The Mythical Man-Month** | Accidental complexity, coordination drag, false confidence from adding more people or agents |
+| **Code Complete** | Unclear control flow, weak naming, risky conditionals, low-level implementation confusion |
+| **Refactoring** | Duplicate knowledge, divergent change, shotgun surgery, feature envy, dead weight |
+| **Clean Architecture** | Dependency direction, policy/detail leakage, unstable boundaries |
+| **The Pragmatic Programmer** | Orthogonality loss, knowledge duplication, fragile assumptions, hidden coupling |
+| **Domain-Driven Design** | Distorted domain language, overloaded concepts, mismatched models |
+| **A Philosophy of Software Design** | Shallow modules, high cognitive load, leaky interfaces |
+| **Software Engineering at Google** | Sustainable change, dependency hygiene, test strategy, codebase-scale maintenance |
+| **Working Effectively with Legacy Code** | Missing seams, hard-to-test code, characterization-test needs |
+| **xUnit Test Patterns** | Test smells, fixture bloat, brittle tests, unclear test intent |
+| **The Art of Unit Testing** | Poor isolation, unreadable tests, false confidence from weak assertions |
+| **How Google Tests Software** | Risk-based testing, confidence by layer, integration coverage gaps |
+
+The point is not to quote books for decoration. The point is to make each architecture or code-smell recommendation traceable:
+
+```text
+Symptom in code
+        |
+        v
+Underlying engineering principle
+        |
+        v
+Concrete consequence for future changes
+        |
+        v
+Smallest safe remedy or intentional design plan
+```
+
+---
+
+## What This Catches That Linters Miss
+
+| Risk | Why It Matters |
+| --- | --- |
+| **Change Propagation** | One small product change forces edits across unrelated modules |
+| **Cognitive Overload** | Agents and humans need too much context before making safe edits |
+| **Knowledge Duplication** | The same decision lives in multiple files and drifts over time |
+| **Accidental Complexity** | The code is harder than the business problem requires |
+| **Dependency Disorder** | Details pull policy downward or create circular ownership |
+| **Domain Model Distortion** | Code names and data shapes stop matching the product reality |
+| **Test Fragility** | Tests protect implementation trivia instead of behavior |
+| **False Confidence** | A passing suite does not cover the risks the code actually has |
+
+This is why the skill treats code health as more than "cleanup." Some findings become safe edits. Some become explicit refactor plans. Some become ADRs or glossary updates because the right move is to preserve context before changing code.
+
+---
+
 ## Product Principles
 
 1. **Scope before judgment** - No-arg runs must ask what area to inspect and what level of action is allowed.
