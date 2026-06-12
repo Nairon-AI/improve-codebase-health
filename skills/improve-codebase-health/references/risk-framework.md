@@ -58,12 +58,16 @@ Signals:
 
 Question: does each module provide leverage behind a small, coherent interface?
 
+Use `architecture-depth.md` for deep-vs-shallow module analysis, deletion tests, seam/adapters, dependency categories, and interface exploration.
+
 Signals:
 
 - pass-through wrappers
 - shallow helpers that scatter complexity
 - interfaces as complex as implementations
 - seams created before two real adapters exist
+- tests that reach past the public interface
+- local changes that reappear across many callers
 
 ### Dead Code / Duplication / Slop
 

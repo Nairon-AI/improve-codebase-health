@@ -20,6 +20,11 @@
       "name": "friday_steward_reports_and_verifies",
       "prompt": "/improve-codebase-health --scope diff --mode friday-steward",
       "expected_output": "Should score health dimensions, apply Tier 1 only, rank Tier 2/3 candidates, and run repo-native type checks and narrow tests for changed surfaces."
+    },
+    {
+      "name": "architecture_depth_uses_deletion_test",
+      "prompt": "Find architecture health issues in the billing module.",
+      "expected_output": "Should use module/interface/seam vocabulary, apply the deletion test to suspected shallow modules, classify dependencies, and treat new seams or interface redesign as Tier 3 unless obviously contained."
     }
   ]
 }

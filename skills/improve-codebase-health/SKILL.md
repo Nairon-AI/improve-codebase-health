@@ -72,6 +72,8 @@ For large scopes, delegate read-only exploration to parallel subagents when avai
 
 Use [risk-framework.md](references/risk-framework.md) for dimensions and finding format.
 
+For module depth, interface, seam, dependency inversion, or architecture refactor findings, also use [architecture-depth.md](references/architecture-depth.md). It contains the deletion test, deep-vs-shallow module vocabulary, dependency categories, and interface exploration workflow.
+
 Score:
 
 - Change safety
@@ -108,7 +110,18 @@ If a rename or migration is too risky, create a documentation fallback:
 - type alias/wrapper when it clarifies without migration
 - migration plan, not migration
 
-### 6. Apply Allowed Fixes
+### 6. Handle Architecture Depth
+
+Use [architecture-depth.md](references/architecture-depth.md) when findings involve shallow modules, unclear interfaces, seams, adapters, module consolidation, or testability.
+
+Do not auto-edit these unless they are clearly Tier 1. Most architecture-depth work is Tier 2 or Tier 3:
+
+- Tier 2 when the shape is obvious and contained.
+- Tier 3 when a new interface, seam, adapter strategy, or domain concept is involved.
+
+For Tier 3, use the interface exploration workflow before implementation.
+
+### 7. Apply Allowed Fixes
 
 Only edit automatically when all Tier 1 rules pass.
 
@@ -121,7 +134,7 @@ For each edit:
 - update or delete tests that protect old incidental structure
 - run required type checks and narrow tests for changed surfaces
 
-### 7. Report
+### 8. Report
 
 Use this output shape:
 

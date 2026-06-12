@@ -11,6 +11,7 @@ const required = [
   "docs/SETUP.md",
   "evals/evals.json",
   "skills/improve-codebase-health/SKILL.md",
+  "skills/improve-codebase-health/references/architecture-depth.md",
   "skills/improve-codebase-health/references/ambiguity-rubric.md",
   "skills/improve-codebase-health/references/risk-framework.md",
   "skills/improve-codebase-health/references/safety-tiers.md",

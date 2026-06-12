@@ -80,6 +80,7 @@ The skill should:
 - resolve scope before scanning
 - score health dimensions
 - classify findings by Tier 0-3
+- use architecture-depth rules for module/interface/seam findings
 - auto-edit only Tier 1 in safe cleanup modes
 - run repo-native type checks and narrow tests for changed surfaces
 

@@ -132,7 +132,7 @@ Symptom in code -> principle violated -> likely future failure -> safe remedy or
 | **Tiered Findings** | Every finding gets edit authority: report-only, auto-safe, ask-first, design-required |
 | **Safe Cleanup Patch** | Tier 1 fixes only, when mode allows edits |
 | **Ambiguity Report** | Names/concepts that could cause plausible wrong edits |
-| **Refactor Candidates** | Tier 2/3 changes ranked for approval or design |
+| **Deepening Candidates** | Shallow modules, weak seams, and leaky interfaces ranked for approval or design |
 | **Verification Notes** | Type checks, tests, skipped checks, and remaining risk |
 
 ---
@@ -182,6 +182,8 @@ Tier 1 is deliberately boring. Risky architecture changes become plans, not surp
 | **Change Propagation** | one small product change forces edits across unrelated modules |
 | **Cognitive Overload** | agents and humans need too much context before safe edits |
 | **Knowledge Duplication** | the same decision lives in multiple files and drifts |
+| **Shallow Modules** | interfaces make callers learn almost as much as the implementation |
+| **Weak Seams** | tests and changes have no stable place to attach |
 | **Domain Model Distortion** | code names and data shapes stop matching product reality |
 | **Test Fragility** | tests protect implementation trivia instead of behavior |
 | **False Confidence** | a passing suite does not cover the risks the code actually has |
@@ -195,6 +197,7 @@ Tier 1 is deliberately boring. Risky architecture changes become plans, not surp
 | [Setup](docs/SETUP.md) | Install prompt, manual fallback, first run |
 | [Skill](skills/improve-codebase-health/SKILL.md) | Main workflow |
 | [Risk Framework](skills/improve-codebase-health/references/risk-framework.md) | Dimensions, severity, scoring, finding format |
+| [Architecture Depth](skills/improve-codebase-health/references/architecture-depth.md) | Deep modules, interfaces, seams, adapters, deletion test |
 | [Safety Tiers](skills/improve-codebase-health/references/safety-tiers.md) | Edit authority rules |
 | [Ambiguity Rubric](skills/improve-codebase-health/references/ambiguity-rubric.md) | Naming/concept ambiguity rules |
 | [Scope and Modes](skills/improve-codebase-health/references/scope-and-modes.md) | Supported scopes and action modes |
