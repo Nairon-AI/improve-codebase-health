@@ -2,10 +2,10 @@
 
 # Improve Codebase Health
 
-### The code-health steward for safer AI-assisted engineering
+### Book-grounded code health reviews for safer AI-assisted engineering
 
-**Scope + Score + Safe Cleanup + Refactor Plan = Healthier Codebase**
-_Harden recent work, reduce ambiguity, strengthen types, and keep architecture changes intentional._
+**Scope + Evidence + Safety Tiers + Refactor Plans**
+_Find real debt, reduce ambiguity, strengthen tests/types, and keep architecture changes intentional._
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Codex Skill](https://img.shields.io/badge/Codex-Skill-111827.svg)](skills/improve-codebase-health/SKILL.md)
@@ -21,226 +21,15 @@ _Most codebases do not fail because one file is messy. They fail because unsafe 
 
 ## What is this?
 
-Improve Codebase Health is a standalone agent skill for scoped code-health reviews. It helps a coding agent inspect a branch, path, PR, issue, recent time window, feature area, or whole repo; score the health risks; apply only boring safe cleanup when requested; and turn risky architecture changes into explicit plans.
+Improve Codebase Health is a standalone agent skill for scoped code-health reviews. Run it inside a product repo to inspect a branch, path, PR, issue, recent time window, feature area, or whole codebase.
 
-The main use case is a Friday hardening pass after a feature week. Instead of asking an agent to "clean up the codebase" and hoping it does not break everything, the skill forces scope, mode, safety tier, evidence, and verification before edits happen.
+It is built for Friday hardening: after a week of feature work, the agent reviews what changed, scores code-health risk, applies only boring safe cleanup when allowed, and turns riskier architecture work into explicit plans instead of surprise refactors.
 
-The skill is intentionally conservative. It improves the codebase so humans and agents can make future changes with more confidence, not less.
-
----
-
-## How It Works
-
-```text
-User invokes skill             No args asks scope + mode
-        |
-        v
-Scope selection                Diff, last N days, path, PR, issue, feature, repo
-        |
-        v
-Context read                   README, SKILLS, domain docs, ADRs, tests
-        |
-        v
-Health assessment              Safety, ambiguity, types, tests, architecture, slop
-        |
-        v
-Safety tiering                 Report only, auto-safe, ask first, design required
-        |
-        v
-Optional safe cleanup          Tier 1 only, then typecheck and narrow tests
-        |
-        v
-Ranked handoff                 Applied fixes, approval items, deferred design work
-```
+The review model is grounded in classic software-engineering architecture and testing books. Findings should connect a code symptom to an underlying principle, explain the future failure mode, and propose the smallest safe remedy.
 
 ---
 
-## What It Produces
-
-| Output | Purpose |
-| --- | --- |
-| **Health Score** | Gives the inspected scope a `0-100` code-health score |
-| **Dimension Scores** | Separates risk across change safety, agent navigability, ambiguity, types, tests, architecture, slop, and dependency direction |
-| **Tiered Findings** | Marks each item as report-only, auto-safe, ask-first, or design-required |
-| **Safe Cleanup Patch** | Applies only Tier 1 changes in safe cleanup modes |
-| **Ambiguity Report** | Shows names/concepts that could cause plausible wrong future edits |
-| **Refactor Candidates** | Ranks Tier 2/3 changes that need approval or design |
-| **Verification Notes** | Lists type checks, tests, and any gaps |
-
----
-
-## Engineering Foundation
-
-Improve Codebase Health reviews architecture and code smells through a classic software-engineering lens, not only style or complexity metrics. Recommendations should connect symptoms in the code to durable principles from books and field-tested engineering practice.
-
-| Source Lens | What It Helps Detect |
-| --- | --- |
-| **The Mythical Man-Month** | Accidental complexity, coordination drag, false confidence from adding more people or agents |
-| **Code Complete** | Unclear control flow, weak naming, risky conditionals, low-level implementation confusion |
-| **Refactoring** | Duplicate knowledge, divergent change, shotgun surgery, feature envy, dead weight |
-| **Clean Architecture** | Dependency direction, policy/detail leakage, unstable boundaries |
-| **The Pragmatic Programmer** | Orthogonality loss, knowledge duplication, fragile assumptions, hidden coupling |
-| **Domain-Driven Design** | Distorted domain language, overloaded concepts, mismatched models |
-| **A Philosophy of Software Design** | Shallow modules, high cognitive load, leaky interfaces |
-| **Software Engineering at Google** | Sustainable change, dependency hygiene, test strategy, codebase-scale maintenance |
-| **Working Effectively with Legacy Code** | Missing seams, hard-to-test code, characterization-test needs |
-| **xUnit Test Patterns** | Test smells, fixture bloat, brittle tests, unclear test intent |
-| **The Art of Unit Testing** | Poor isolation, unreadable tests, false confidence from weak assertions |
-| **How Google Tests Software** | Risk-based testing, confidence by layer, integration coverage gaps |
-
-The point is not to quote books for decoration. The point is to make each architecture or code-smell recommendation traceable:
-
-```text
-Symptom in code
-        |
-        v
-Underlying engineering principle
-        |
-        v
-Concrete consequence for future changes
-        |
-        v
-Smallest safe remedy or intentional design plan
-```
-
----
-
-## What This Catches That Linters Miss
-
-| Risk | Why It Matters |
-| --- | --- |
-| **Change Propagation** | One small product change forces edits across unrelated modules |
-| **Cognitive Overload** | Agents and humans need too much context before making safe edits |
-| **Knowledge Duplication** | The same decision lives in multiple files and drifts over time |
-| **Accidental Complexity** | The code is harder than the business problem requires |
-| **Dependency Disorder** | Details pull policy downward or create circular ownership |
-| **Domain Model Distortion** | Code names and data shapes stop matching the product reality |
-| **Test Fragility** | Tests protect implementation trivia instead of behavior |
-| **False Confidence** | A passing suite does not cover the risks the code actually has |
-
-This is why the skill treats code health as more than "cleanup." Some findings become safe edits. Some become explicit refactor plans. Some become ADRs or glossary updates because the right move is to preserve context before changing code.
-
----
-
-## Product Principles
-
-1. **Scope before judgment** - No-arg runs must ask what area to inspect and what level of action is allowed.
-
-2. **Safety over momentum** - Missing a safe cleanup is better than making a clever breaking change.
-
-3. **Evidence before opinion** - Every finding needs concrete files, snippets, diff facts, tests, docs, or dependency evidence.
-
-4. **Ambiguity means wrong edits** - A vague name is only a finding when a future human or agent could plausibly change the wrong thing.
-
-5. **Architecture changes require intent** - New seams, public contract changes, migrations, auth/payment/data boundaries, and domain model shifts need approval or design.
-
-6. **Type safety is codebase UX** - Stronger types make the platform easier for agents to navigate and harder to misuse.
-
-7. **Tests should protect behavior** - Cleanup should remove tests that lock incidental structure and add confidence at real interfaces.
-
-8. **Verification closes the loop** - Type checks and narrow tests are mandatory for touched surfaces.
-
----
-
-## Scope Modes
-
-| Scope | Best Use |
-| --- | --- |
-| **Current Branch Diff** | Friday hardening before PR or merge |
-| **Last N Days** | End-of-week cleanup across several branches or commits |
-| **Path / Package** | Focused health pass on one app, package, or subsystem |
-| **PR / Issue** | Review recent code plus discussion and CI context |
-| **Feature Area** | Agent maps files by domain terms before scanning |
-| **Whole Repo** | Broad audit, usually report-heavy and edit-light |
-
----
-
-## Action Modes
-
-| Mode | Edits? | Purpose |
-| --- | --- | --- |
-| **Audit Only** | No | Understand health risk without changing code |
-| **Safe Cleanup** | Tier 1 only | Apply low-risk local cleanup |
-| **Plan Refactor** | No | Turn Tier 2/3 findings into an implementation plan |
-| **Friday Steward** | Tier 1 + candidates | Weekly habit: safe fixes plus ranked approval items |
-
----
-
-## Safety Tiers
-
-| Tier | Authority | Examples |
-| --- | --- | --- |
-| **Tier 0** | Report only | Low-confidence smell, broad concern, needs product answer |
-| **Tier 1** | Auto-safe | Remove unused private code, rename private local, tighten obvious local type |
-| **Tier 2** | Ask first | Exported rename, file move, module merge, test strategy change |
-| **Tier 3** | Design required | New seam, public API shape, persistence/auth/payment boundary, database rename |
-
-Tier 1 is deliberately boring. That is the point.
-
----
-
-## Health Dimensions
-
-| Dimension | Question |
-| --- | --- |
-| **Change Safety** | Can focused changes avoid unrelated breakage? |
-| **Agent Navigability** | Can agents find files, concepts, and checks quickly? |
-| **Domain Clarity / Ambiguity** | Could names or models cause plausible wrong edits? |
-| **Type Safety** | Do types encode important invariants? |
-| **Test Confidence** | Would tests catch likely bugs? |
-| **Module Depth / Architecture** | Do modules provide leverage behind coherent interfaces? |
-| **Dead Code / Duplication / Slop** | Is stale weight slowing the system down? |
-| **Dependency Direction** | Do dependencies point in understandable directions? |
-
----
-
-## Usage
-
-No-arg interactive run:
-
-```text
-/improve-codebase-health
-```
-
-Recommended Friday flow:
-
-```text
-/improve-codebase-health --scope diff --mode friday-steward
-```
-
-Audit recent branch work:
-
-```text
-/improve-codebase-health --scope diff --mode audit
-```
-
-Safely clean recent branch work:
-
-```text
-/improve-codebase-health --scope diff --mode safe-cleanup
-```
-
-Harden the last five days:
-
-```text
-/improve-codebase-health --scope since --since 5 --mode friday-steward
-```
-
-Plan a risky refactor:
-
-```text
-/improve-codebase-health --scope feature --feature onboarding --mode plan-refactor
-```
-
-Inspect a package:
-
-```text
-/improve-codebase-health --scope path --path packages/billing --mode audit
-```
-
----
-
-## Installation
+## Install
 
 Run this prompt inside the target repo using Codex or Claude Code:
 
@@ -260,83 +49,136 @@ Do the install cleanly:
 - Show git status, installed paths, and any warnings.
 ```
 
-After install, invoke from the target repo:
+Then invoke:
 
 ```text
 /improve-codebase-health
 ```
 
-This repo ships a **skill** with a thin **plugin wrapper**:
-
-| Layer | Path | Purpose |
-| --- | --- | --- |
-| **Skill** | `skills/improve-codebase-health/` | The actual agent workflow and references |
-| **Command** | `commands/improve-codebase-health.md` | Slash-command entrypoint |
-| **Plugin Metadata** | `.codex-plugin/plugin.json` | Package metadata so Codex-style plugin installers can discover the skill |
-
-Manual fallback for one product repo:
-
-```bash
-mkdir -p .agents/skills
-cp -R skills/improve-codebase-health .agents/skills/improve-codebase-health
-```
-
-For a user-wide Codex install:
-
-```bash
-mkdir -p ~/.codex/skills
-cp -R skills/improve-codebase-health ~/.codex/skills/improve-codebase-health
-```
-
-For a Claude Code style install:
-
-```bash
-mkdir -p .claude/skills
-cp -R skills/improve-codebase-health .claude/skills/improve-codebase-health
-```
-
-Full setup: [docs/SETUP.md](docs/SETUP.md).
+This repo ships the actual **skill** at `skills/improve-codebase-health/`, plus a thin command/plugin wrapper for agent environments that support it.
 
 ---
 
-## Built Surfaces
-
-| Surface | Status | Purpose |
-| --- | --- | --- |
-| **Skill** | Built | Main `improve-codebase-health` agent workflow |
-| **References** | Built | Risk framework, scope modes, safety tiers, ambiguity rubric |
-| **Command Wrapper** | Built | Slash command entrypoint |
-| **Evals** | Initial | Basic expected-behavior cases |
-| **Package Metadata** | Initial | Codex plugin metadata and npm package shell |
-
----
-
-## Repository Layout
+## How It Works
 
 ```text
-improve-codebase-health/
-├── README.md
-├── LICENSE
-├── package.json
-├── .codex-plugin/
-│   └── plugin.json
-├── commands/
-│   └── improve-codebase-health.md
-├── docs/
-│   └── SETUP.md
-├── evals/
-│   └── evals.json
-├── scripts/
-│   └── check.js
-└── skills/
-    └── improve-codebase-health/
-        ├── SKILL.md
-        └── references/
-            ├── ambiguity-rubric.md
-            ├── risk-framework.md
-            ├── safety-tiers.md
-            └── scope-and-modes.md
+Choose scope + mode
+        |
+        v
+Read repo context              README, SKILLS, domain docs, ADRs, tests
+        |
+        v
+Assess health                  Safety, ambiguity, types, tests, architecture
+        |
+        v
+Classify authority             Report only, auto-safe, ask first, design required
+        |
+        v
+Verify + hand off              Applied fixes, approval items, deferred design work
 ```
+
+---
+
+## Engineering Foundation
+
+Improve Codebase Health treats code smells and architecture issues as engineering signals, not style complaints. It draws from durable ideas in:
+
+| Source Lens | What It Helps Detect |
+| --- | --- |
+| **The Mythical Man-Month** | accidental complexity, coordination drag, false confidence from adding more agents |
+| **Code Complete** | unclear control flow, weak naming, risky conditionals |
+| **Refactoring** | duplicate knowledge, divergent change, shotgun surgery, dead weight |
+| **Clean Architecture** | dependency direction, policy/detail leakage, unstable boundaries |
+| **The Pragmatic Programmer** | orthogonality loss, hidden coupling, fragile assumptions |
+| **Domain-Driven Design** | distorted domain language, overloaded concepts, mismatched models |
+| **A Philosophy of Software Design** | shallow modules, high cognitive load, leaky interfaces |
+| **Software Engineering at Google** | sustainable change, dependency hygiene, codebase-scale maintenance |
+| **Working Effectively with Legacy Code** | missing seams, hard-to-test code, characterization-test needs |
+| **xUnit Test Patterns / Art of Unit Testing / How Google Tests Software** | brittle tests, fixture bloat, weak assertions, risk-based coverage gaps |
+
+Every meaningful recommendation should trace:
+
+```text
+Symptom in code -> principle violated -> likely future failure -> safe remedy or design plan
+```
+
+---
+
+## What It Produces
+
+| Output | Purpose |
+| --- | --- |
+| **Health Score** | `0-100` score for the inspected scope |
+| **Dimension Scores** | Separate signal for safety, navigability, ambiguity, types, tests, architecture, slop, dependencies |
+| **Tiered Findings** | Every finding gets edit authority: report-only, auto-safe, ask-first, design-required |
+| **Safe Cleanup Patch** | Tier 1 fixes only, when mode allows edits |
+| **Ambiguity Report** | Names/concepts that could cause plausible wrong edits |
+| **Refactor Candidates** | Tier 2/3 changes ranked for approval or design |
+| **Verification Notes** | Type checks, tests, skipped checks, and remaining risk |
+
+---
+
+## Usage
+
+Recommended Friday flow:
+
+```text
+/improve-codebase-health --scope diff --mode friday-steward
+```
+
+Common runs:
+
+```text
+/improve-codebase-health --scope diff --mode audit
+/improve-codebase-health --scope diff --mode safe-cleanup
+/improve-codebase-health --scope since --since 5 --mode friday-steward
+/improve-codebase-health --scope feature --feature onboarding --mode plan-refactor
+/improve-codebase-health --scope path --path packages/billing --mode audit
+```
+
+No-arg usage asks two questions:
+
+1. What scope should I inspect?
+2. What should I do?
+
+---
+
+## Safety Model
+
+| Tier | Authority | Examples |
+| --- | --- | --- |
+| **Tier 0** | Report only | low-confidence smell, broad concern, needs product answer |
+| **Tier 1** | Auto-safe | remove unused private code, rename private local, tighten obvious local type |
+| **Tier 2** | Ask first | exported rename, file move, module merge, test strategy change |
+| **Tier 3** | Design required | new seam, public API shape, persistence/auth/payment boundary, database rename |
+
+Tier 1 is deliberately boring. Risky architecture changes become plans, not surprise edits.
+
+---
+
+## What This Catches That Linters Miss
+
+| Risk | Why It Matters |
+| --- | --- |
+| **Change Propagation** | one small product change forces edits across unrelated modules |
+| **Cognitive Overload** | agents and humans need too much context before safe edits |
+| **Knowledge Duplication** | the same decision lives in multiple files and drifts |
+| **Domain Model Distortion** | code names and data shapes stop matching product reality |
+| **Test Fragility** | tests protect implementation trivia instead of behavior |
+| **False Confidence** | a passing suite does not cover the risks the code actually has |
+
+---
+
+## Docs
+
+| Doc | Description |
+| --- | --- |
+| [Setup](docs/SETUP.md) | Install prompt, manual fallback, first run |
+| [Skill](skills/improve-codebase-health/SKILL.md) | Main workflow |
+| [Risk Framework](skills/improve-codebase-health/references/risk-framework.md) | Dimensions, severity, scoring, finding format |
+| [Safety Tiers](skills/improve-codebase-health/references/safety-tiers.md) | Edit authority rules |
+| [Ambiguity Rubric](skills/improve-codebase-health/references/ambiguity-rubric.md) | Naming/concept ambiguity rules |
+| [Scope and Modes](skills/improve-codebase-health/references/scope-and-modes.md) | Supported scopes and action modes |
 
 ---
 
@@ -345,24 +187,6 @@ improve-codebase-health/
 ```bash
 npm run check
 ```
-
-The check validates required files and JSON metadata.
-
----
-
-## Documentation
-
-| Doc | Description |
-| --- | --- |
-| [Setup](docs/SETUP.md) | Install/copy instructions and first run |
-| [Skill](skills/improve-codebase-health/SKILL.md) | Main agent workflow |
-| [Risk Framework](skills/improve-codebase-health/references/risk-framework.md) | Health dimensions, severity, scoring, finding format |
-| [Safety Tiers](skills/improve-codebase-health/references/safety-tiers.md) | Edit authority rules |
-| [Ambiguity Rubric](skills/improve-codebase-health/references/ambiguity-rubric.md) | Naming/concept ambiguity evidence rules |
-| [Scope and Modes](skills/improve-codebase-health/references/scope-and-modes.md) | Supported scope and action modes |
-| [Evals](evals/evals.json) | Initial expected-behavior checks |
-
----
 
 ## License
 
