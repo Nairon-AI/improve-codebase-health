@@ -2,7 +2,7 @@
 
 # Improve Codebase Health
 
-### Book-grounded code health reviews for safer AI-assisted engineering
+### Grounded Codebase-health reviews for safer AI-assisted engineering
 
 **Weekly Stewardship + Timeless Engineering Principles + Agent-Readable Architecture**
 _Keep the codebase clear enough that humans and coding agents can change it safely._
