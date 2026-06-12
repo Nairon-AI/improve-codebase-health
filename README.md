@@ -240,6 +240,47 @@ Inspect a package:
 
 ---
 
+## Installation
+
+This repo ships a **skill** with a thin **plugin wrapper**:
+
+| Layer | Path | Purpose |
+| --- | --- | --- |
+| **Skill** | `skills/improve-codebase-health/` | The actual agent workflow and references |
+| **Command** | `commands/improve-codebase-health.md` | Slash-command entrypoint |
+| **Plugin Metadata** | `.codex-plugin/plugin.json` | Package metadata so Codex-style plugin installers can discover the skill |
+
+For one product repo, copy the skill into that repo:
+
+```bash
+mkdir -p .agents/skills
+cp -R skills/improve-codebase-health .agents/skills/improve-codebase-health
+```
+
+For a user-wide Codex install:
+
+```bash
+mkdir -p ~/.codex/skills
+cp -R skills/improve-codebase-health ~/.codex/skills/improve-codebase-health
+```
+
+For a Claude Code style install:
+
+```bash
+mkdir -p .claude/skills
+cp -R skills/improve-codebase-health .claude/skills/improve-codebase-health
+```
+
+Then invoke from the target repo:
+
+```text
+/improve-codebase-health
+```
+
+Full setup: [docs/SETUP.md](docs/SETUP.md).
+
+---
+
 ## Built Surfaces
 
 | Surface | Status | Purpose |
