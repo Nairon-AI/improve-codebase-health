@@ -111,6 +111,20 @@ Full guide: [docs/health-dimensions.md](docs/health-dimensions.md).
 | When agents keep making wrong edits | Audit agent navigability and ambiguity findings |
 | When tests pass but confidence is low | Focus on test confidence and module depth |
 
+You can also talk to your coding agent naturally:
+
+```text
+I want to see how we can improve the health of our onboarding feature.
+Look for architecture drift, ambiguous names, weak tests, and safe cleanup opportunities.
+Do not make risky architecture changes without asking me first.
+```
+
+Or:
+
+```text
+Can you run Improve Codebase Health on the billing system and tell me what would make it safer for future agents to change?
+```
+
 ## What It Looks Like
 
 ```text
