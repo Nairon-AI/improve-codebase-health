@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">Improve Codebase Health</title>
+  <desc id="desc">A shield with layered code paths and a pulse line.</desc>
+  <defs>
+    <linearGradient id="g" x1="48" y1="32" x2="208" y2="224" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#14b8a6"/>
+      <stop offset="1" stop-color="#111827"/>
+    </linearGradient>
+  </defs>
+  <rect width="256" height="256" rx="56" fill="#f8fafc"/>
+  <path d="M128 28 202 58v58c0 48-29 90-74 112-45-22-74-64-74-112V58l74-30Z" fill="url(#g)"/>
+  <path d="M88 96h45l13-24 17 72 14-32h25" fill="none" stroke="#ecfeff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M86 154h84M86 182h58" fill="none" stroke="#ccfbf1" stroke-width="12" stroke-linecap="round"/>
+</svg>

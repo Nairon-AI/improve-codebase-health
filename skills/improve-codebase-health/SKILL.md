@@ -56,7 +56,20 @@ Prefer narrow scopes:
 3. User-selected scope.
 4. Whole repo only when requested.
 
-### 2. Build Context
+### 2. Load Project Config
+
+Check for `.improve-codebase-health.yaml` or `.improve-codebase-health.yml` at the repo root.
+
+If present, apply:
+
+- ignored paths
+- focused dimensions
+- severity overrides
+- safety preferences
+
+If parsing fails, continue with defaults and report the config warning.
+
+### 3. Build Context
 
 Read the nearest repo docs before judging code:
 
@@ -68,7 +81,7 @@ Read the nearest repo docs before judging code:
 
 For large scopes, delegate read-only exploration to parallel subagents when available. Give each subagent a bounded question and avoid duplicate exploration.
 
-### 3. Assess Health
+### 4. Assess Health
 
 Use [risk-framework.md](references/risk-framework.md) for dimensions and finding format.
 
@@ -85,7 +98,7 @@ Score:
 - Dead code / duplication / slop
 - Dependency direction
 
-### 4. Classify Edit Authority
+### 5. Classify Edit Authority
 
 Use [safety-tiers.md](references/safety-tiers.md).
 
@@ -96,7 +109,7 @@ Use [safety-tiers.md](references/safety-tiers.md).
 
 Be strict. Missing a safe fix is better than breaking the system.
 
-### 5. Handle Ambiguity
+### 6. Handle Ambiguity
 
 Use [ambiguity-rubric.md](references/ambiguity-rubric.md).
 
@@ -110,7 +123,7 @@ If a rename or migration is too risky, create a documentation fallback:
 - type alias/wrapper when it clarifies without migration
 - migration plan, not migration
 
-### 6. Handle Architecture Depth
+### 7. Handle Architecture Depth
 
 Use [architecture-depth.md](references/architecture-depth.md) when findings involve shallow modules, unclear interfaces, seams, adapters, module consolidation, or testability.
 
@@ -121,7 +134,7 @@ Do not auto-edit these unless they are clearly Tier 1. Most architecture-depth w
 
 For Tier 3, use the interface exploration workflow before implementation.
 
-### 7. Apply Allowed Fixes
+### 8. Apply Allowed Fixes
 
 Only edit automatically when all Tier 1 rules pass.
 
@@ -134,7 +147,7 @@ For each edit:
 - update or delete tests that protect old incidental structure
 - run required type checks and narrow tests for changed surfaces
 
-### 8. Report
+### 9. Report
 
 Use this output shape:
 

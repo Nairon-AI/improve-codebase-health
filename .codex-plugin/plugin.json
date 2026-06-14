@@ -27,6 +27,8 @@
     "capabilities": [
       "Interactive"
     ],
-    "websiteURL": "https://github.com/Nairon-AI/improve-codebase-health"
+    "websiteURL": "https://github.com/Nairon-AI/improve-codebase-health",
+    "composerIcon": "./assets/logo.svg",
+    "logo": "./assets/logo.svg"
   }
 }

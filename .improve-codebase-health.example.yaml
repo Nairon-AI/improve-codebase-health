@@ -1,0 +1,30 @@
+version: 1
+
+# Optional. Omit this file for defaults.
+
+ignore:
+  - "**/*.generated.*"
+  - "**/vendor/**"
+  - "**/dist/**"
+  - "**/.next/**"
+
+focus:
+  # Leave empty to inspect all dimensions.
+  # Valid values:
+  # - change-safety
+  # - agent-navigability
+  # - ambiguity
+  # - type-safety
+  # - test-confidence
+  # - module-depth
+  # - slop
+  # - dependency-direction
+
+severity:
+  # Optional project-specific severity overrides.
+  # ambiguity: high
+
+safety:
+  allow_tier_1_autofix: true
+  require_approval_for_tier_2: true
+  require_design_for_tier_3: true

@@ -1,0 +1,16 @@
+name: Improve Codebase Health
+
+on:
+  pull_request:
+
+jobs:
+  health-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Run codebase health audit
+        run: |
+          echo "Invoke your preferred coding agent here with:"
+          echo "/improve-codebase-health --scope diff --mode audit"

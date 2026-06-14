@@ -10,7 +10,10 @@
     "commands",
     "docs",
     "evals",
+    "assets",
     "skills",
+    "scripts",
+    ".improve-codebase-health.example.yaml",
     ".codex-plugin",
     ".claude-plugin"
   ],
