@@ -2,198 +2,178 @@
 
 # Improve Codebase Health
 
-### Codebase health review plugin for safer AI-assisted engineering
+Codebase health reviews grounded in classic software engineering books.
 
-**Weekly Stewardship + Timeless Engineering Principles + Agent-Readable Architecture**
-_Keep the codebase clear enough that humans and coding agents can change it safely._
+Consistent. Traceable. Safe to act on.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Codex Skill](https://img.shields.io/badge/Codex-Skill-111827.svg)](skills/improve-codebase-health/SKILL.md)
-[![Nairon AI](https://img.shields.io/badge/Nairon-AI-111827.svg)](https://github.com/Nairon-AI)
+[![Claude Code Plugin](https://img.shields.io/badge/Claude_Code-Plugin-111827.svg)](.claude-plugin/plugin.json)
+[![Codex Plugin](https://img.shields.io/badge/Codex-Plugin-111827.svg)](.codex-plugin/plugin.json)
 
----
-
-_AI makes code faster to write. It also makes architecture easier to lose touch with._
+Health Dimensions • What It Looks Like • Installation
 
 </div>
 
 ---
 
-## What is this?
+> AI makes code faster to write. It also makes architecture easier to lose touch with.
 
-Improve Codebase Health is a plugin package for scoped code-health reviews. Run it inside a product repo to inspect a branch, path, PR, issue, recent time window, feature area, or whole codebase.
+Most code quality tools check syntax, style, coverage, or complexity. Improve Codebase Health goes after the slower problem: codebase drift.
 
-It is built for weekly codebase stewardship. After a week of feature work, the agent reviews what changed, scores code-health risk, applies only boring safe cleanup when allowed, and turns riskier architecture work into explicit plans instead of surprise refactors.
+It reviews a branch, PR, path, feature area, recent time window, or full repo and asks:
 
-The review model is grounded in classic software-engineering architecture and testing books. Findings should connect a code symptom to an underlying principle, explain the future failure mode, and propose the smallest safe remedy.
+```text
+Is this codebase still safe to change?
+```
 
----
+It can be run anytime: before a PR, after a feature lands, during a refactor, as part of Friday cleanup, or whenever a codebase starts feeling harder to reason about. Weekly stewardship is a good habit, not a limitation.
 
-## Why this exists
-
-Software engineering principles are timeless: clear boundaries, deep interfaces, strong names, useful tests, local reasoning, and dependency discipline still matter. AI does not remove that. It raises the stakes.
-
-In a v1 codebase, agents can move quickly even when the architecture is fuzzy. By v100, after many small sloppy changes, the same fuzziness becomes brittleness: names drift, interfaces leak, tests protect the wrong things, and nobody fully trusts the shape of the system. Humans can often feel that pain before they can name it. Coding agents usually cannot. They need the pain translated into explicit signals.
-
-Improve Codebase Health turns that felt engineering judgment into a repeatable review habit:
-
-- spot paper cuts before they become local conventions
-- surface major architecture problems before they become expensive rewrites
-- clarify domain language so agents do not make plausible wrong edits
-- keep boundaries, interfaces, tests, and types understandable
-- preserve human understanding of the codebase as it scales
-- make the platform safer for future agents to change
-
-This is not a once-a-quarter cleanup project. It is meant to be embedded in the repo and run regularly, ideally once a week, so codebase health is continuously monitored instead of deferred until everything feels brittle.
+Findings are grounded in classic software engineering principles, then classified by safety so agents do not casually reshape architecture.
 
 ---
 
-## Install
+## The Books
 
-Claude Code plugin install:
+| Book | Author | Helps Detect |
+| --- | --- | --- |
+| The Mythical Man-Month | Frederick Brooks | accidental complexity, coordination drag |
+| Code Complete | Steve McConnell | unclear control flow, weak naming, risky conditionals |
+| Refactoring | Martin Fowler | duplication, divergent change, shotgun surgery |
+| Clean Architecture | Robert C. Martin | dependency direction, policy/detail leakage |
+| The Pragmatic Programmer | Andrew Hunt & David Thomas | hidden coupling, knowledge duplication |
+| Domain-Driven Design | Eric Evans | distorted domain language, overloaded concepts |
+| A Philosophy of Software Design | John Ousterhout | shallow modules, high cognitive load |
+| Software Engineering at Google | Titus Winters, Tom Manshreck & Hyrum Wright | sustainable change, dependency hygiene |
+| Working Effectively with Legacy Code | Michael Feathers | missing seams, hard-to-test code |
+| xUnit Test Patterns | Gerard Meszaros | brittle tests, fixture bloat |
+| The Art of Unit Testing | Roy Osherove | weak assertions, poor isolation |
+| How Google Tests Software | James Whittaker, Jason Arbon & Jeff Carollo | risk-based testing, confidence gaps |
+
+The point is not book trivia. It is traceability:
+
+```text
+Symptom -> Source principle -> Consequence -> Remedy
+```
+
+---
+
+## Health Dimensions
+
+| Dimension | Diagnostic Question |
+| --- | --- |
+| Change Safety | How many unrelated things could break from one change? |
+| Agent Navigability | Can an agent find the right files, concepts, and checks quickly? |
+| Domain Clarity / Ambiguity | Could names or models cause plausible wrong edits? |
+| Type Safety | Do types encode important invariants? |
+| Test Confidence | Would tests catch the bugs this area is likely to produce? |
+| Module Depth / Architecture | Do modules provide leverage behind coherent interfaces? |
+| Dead Code / Duplication / Slop | Is stale weight slowing the system down? |
+| Dependency Direction | Do dependencies point in an understandable direction? |
+
+Architecture findings also use the bundled [Architecture Depth](skills/improve-codebase-health/references/architecture-depth.md) framework: modules, interfaces, seams, adapters, deletion tests, dependency categories, and interface exploration.
+
+---
+
+## What It Looks Like
+
+```text
+Health Score: 74/100
+Scope: current branch diff against origin/main
+Mode: friday-steward
+
+[high] [Tier 3] [Module Depth / Architecture]
+Checkout orchestration leaks payment, inventory, and email details
+
+Symptom:
+The checkout module forces callers and tests to know payment capture order,
+inventory reservation rules, and email notification timing.
+
+Source:
+Ousterhout — A Philosophy of Software Design — shallow modules.
+Fowler — Refactoring — divergent change.
+
+Consequence:
+A small change to fulfillment can break payment or notification behavior.
+Future agents have no stable interface to modify safely.
+
+Remedy:
+Design a deeper CheckoutFlow interface that owns orchestration and exposes
+observable outcomes. Treat as design-required before implementation.
+
+Verification:
+Move tests to the new interface. Keep payment/inventory/email behind adapters.
+```
+
+---
+
+## Safety Tiers
+
+| Tier | Meaning | Agent Authority |
+| --- | --- | --- |
+| Tier 0 | Report only | No edits |
+| Tier 1 | Auto-safe cleanup | May edit when mode allows |
+| Tier 2 | Ask first | Plan patch, wait for approval |
+| Tier 3 | Design required | Grill/design/ADR before implementation |
+
+This is the important part: the plugin can surface architecture drift without letting an agent casually rewrite your system.
+
+---
+
+## Installation
+
+### Claude Code
 
 ```text
 /plugin marketplace add Nairon-AI/improve-codebase-health
 /plugin install improve-codebase-health@improve-codebase-health-marketplace
 ```
 
-Codex / repo-agent install prompt:
+### Codex / Repo-aware Agents
+
+Ask the agent:
 
 ```text
-Install the Improve Codebase Health plugin from https://github.com/Nairon-AI/improve-codebase-health into this repo.
-
-Do the install cleanly:
-- Read this repo's existing AGENTS.md, CLAUDE.md, README.md, and nearest SKILLS.md first.
-- Preserve existing work. Do not overwrite unrelated files.
-- Install the packaged skill from skills/improve-codebase-health into this repo's normal agent skill location.
-- If this repo uses .agents/skills, install it there.
-- If this repo uses .claude/skills, install it there too.
-- If neither exists, create .agents/skills/improve-codebase-health.
-- Add or update a short AGENTS.md/CLAUDE.md note only if the repo already has an agent-skills section.
-- Do not change product code.
-- Verify the skill files exist after install.
-- Show git status, installed paths, and any warnings.
+Install the Improve Codebase Health plugin from Nairon-AI/improve-codebase-health
 ```
 
-Then invoke:
+### Manual Skill Install
+
+```bash
+mkdir -p .agents/skills
+cp -R skills/improve-codebase-health .agents/skills/improve-codebase-health
+```
+
+Then run:
 
 ```text
 /improve-codebase-health
 ```
 
-This repo is a **plugin package**. The actual review logic lives in the bundled skill at `skills/improve-codebase-health/`, with command/plugin metadata for agent environments that support it.
-
----
-
-## How It Works
-
-```text
-Choose scope + mode
-        |
-        v
-Read repo context              README, SKILLS, domain docs, ADRs, tests
-        |
-        v
-Assess health                  Safety, ambiguity, types, tests, architecture
-        |
-        v
-Classify authority             Report only, auto-safe, ask first, design required
-        |
-        v
-Verify + hand off              Applied fixes, approval items, deferred design work
-```
-
----
-
-## Engineering Foundation
-
-Improve Codebase Health treats code smells and architecture issues as engineering signals, not style complaints. It draws from durable ideas in:
-
-| Source Lens | What It Helps Detect |
-| --- | --- |
-| **The Mythical Man-Month** | accidental complexity, coordination drag, false confidence from adding more agents |
-| **Code Complete** | unclear control flow, weak naming, risky conditionals |
-| **Refactoring** | duplicate knowledge, divergent change, shotgun surgery, dead weight |
-| **Clean Architecture** | dependency direction, policy/detail leakage, unstable boundaries |
-| **The Pragmatic Programmer** | orthogonality loss, hidden coupling, fragile assumptions |
-| **Domain-Driven Design** | distorted domain language, overloaded concepts, mismatched models |
-| **A Philosophy of Software Design** | shallow modules, high cognitive load, leaky interfaces |
-| **Software Engineering at Google** | sustainable change, dependency hygiene, codebase-scale maintenance |
-| **Working Effectively with Legacy Code** | missing seams, hard-to-test code, characterization-test needs |
-| **xUnit Test Patterns / Art of Unit Testing / How Google Tests Software** | brittle tests, fixture bloat, weak assertions, risk-based coverage gaps |
-
-Every meaningful recommendation should trace:
-
-```text
-Symptom in code -> principle violated -> likely future failure -> safe remedy or design plan
-```
-
----
-
-## What It Produces
-
-| Output | Purpose |
-| --- | --- |
-| **Health Score** | `0-100` score for the inspected scope |
-| **Dimension Scores** | Separate signal for safety, navigability, ambiguity, types, tests, architecture, slop, dependencies |
-| **Tiered Findings** | Every finding gets edit authority: report-only, auto-safe, ask-first, design-required |
-| **Safe Cleanup Patch** | Tier 1 fixes only, when mode allows edits |
-| **Ambiguity Report** | Names/concepts that could cause plausible wrong edits |
-| **Deepening Candidates** | Shallow modules, weak seams, and leaky interfaces ranked for approval or design |
-| **Verification Notes** | Type checks, tests, skipped checks, and remaining risk |
-
----
-
-## Usage
-
-Recommended Friday flow:
-
-```text
-/improve-codebase-health --scope diff --mode friday-steward
-```
-
-Common runs:
+No-arg usage asks for scope and mode. You can also call it directly:
 
 ```text
 /improve-codebase-health --scope diff --mode audit
 /improve-codebase-health --scope diff --mode safe-cleanup
 /improve-codebase-health --scope since --since 5 --mode friday-steward
 /improve-codebase-health --scope feature --feature onboarding --mode plan-refactor
-/improve-codebase-health --scope path --path packages/billing --mode audit
 ```
 
-No-arg usage asks two questions:
-
-1. What scope should I inspect?
-2. What should I do?
-
 ---
 
-## Safety Model
+## What Linters Miss
 
-| Tier | Authority | Examples |
-| --- | --- | --- |
-| **Tier 0** | Report only | low-confidence smell, broad concern, needs product answer |
-| **Tier 1** | Auto-safe | remove unused private code, rename private local, tighten obvious local type |
-| **Tier 2** | Ask first | exported rename, file move, module merge, test strategy change |
-| **Tier 3** | Design required | new seam, public API shape, persistence/auth/payment boundary, database rename |
+Improve Codebase Health does not replace ESLint, Pylint, typecheckers, or tests.
 
-Tier 1 is deliberately boring. Risky architecture changes become plans, not surprise edits.
+It catches the slower problems:
 
----
-
-## What This Catches That Linters Miss
-
-| Risk | Why It Matters |
-| --- | --- |
-| **Change Propagation** | one small product change forces edits across unrelated modules |
-| **Cognitive Overload** | agents and humans need too much context before safe edits |
-| **Knowledge Duplication** | the same decision lives in multiple files and drifts |
-| **Shallow Modules** | interfaces make callers learn almost as much as the implementation |
-| **Weak Seams** | tests and changes have no stable place to attach |
-| **Domain Model Distortion** | code names and data shapes stop matching product reality |
-| **Test Fragility** | tests protect implementation trivia instead of behavior |
-| **False Confidence** | a passing suite does not cover the risks the code actually has |
+- architecture drift
+- shallow modules
+- weak seams
+- vague domain language
+- tests that protect implementation trivia
+- types that allow invalid states
+- changes that scatter across unrelated modules
+- code that agents can plausibly misunderstand
 
 ---
 
@@ -201,10 +181,10 @@ Tier 1 is deliberately boring. Risky architecture changes become plans, not surp
 
 | Doc | Description |
 | --- | --- |
-| [Setup](docs/SETUP.md) | Install prompt, manual fallback, first run |
+| [Setup](docs/SETUP.md) | Install and first run |
 | [Skill](skills/improve-codebase-health/SKILL.md) | Main workflow |
 | [Risk Framework](skills/improve-codebase-health/references/risk-framework.md) | Dimensions, severity, scoring, finding format |
-| [Architecture Depth](skills/improve-codebase-health/references/architecture-depth.md) | Deep modules, interfaces, seams, adapters, deletion test |
+| [Architecture Depth](skills/improve-codebase-health/references/architecture-depth.md) | Deep modules, interfaces, seams, adapters |
 | [Safety Tiers](skills/improve-codebase-health/references/safety-tiers.md) | Edit authority rules |
 | [Ambiguity Rubric](skills/improve-codebase-health/references/ambiguity-rubric.md) | Naming/concept ambiguity rules |
 | [Scope and Modes](skills/improve-codebase-health/references/scope-and-modes.md) | Supported scopes and action modes |
@@ -227,6 +207,6 @@ npm run check
 
 _Built by [Nairon AI](https://github.com/Nairon-AI)_
 
-**Harden the codebase before agents run faster.**
+**Keep the codebase clear enough for humans and agents to change safely.**
 
 </div>
