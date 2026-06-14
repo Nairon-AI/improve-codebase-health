@@ -260,31 +260,18 @@ Project-local install:
 
 Supported installer targets:
 
-```text
-agents, codex, claude, cursor, copilot, gemini, windsurf, opencode
-```
+| Target | Supported |
+| --- | --- |
+| agents | ✅ |
+| codex | ✅ |
+| claude | ✅ |
+| cursor | ✅ |
+| copilot | ✅ |
+| gemini | ✅ |
+| windsurf | ✅ |
+| opencode | ✅ |
 
 See [docs/getting-started.md](docs/getting-started.md) and [docs/SETUP.md](docs/SETUP.md).
-
-### Platform Guide
-
-| Environment | Preferred Install | Typical Skill Location | Notes |
-| --- | --- | --- | --- |
-| Claude Code | Plugin marketplace | Plugin-managed, or `.claude/skills` | Best first-class plugin path. |
-| Codex | Agent-assisted plugin/skill install | `~/.codex/skills` or `.agents/skills` | Paste the install prompt and let Codex place it. |
-| Cursor / Copilot-style agents | Agent-assisted skill install | `.agents/skills` or tool-specific skill folder | Works when the agent reads `SKILL.md`. |
-| Generic agent skill runner | Local installer | configured skills directory | Use `./scripts/install.sh agents`. |
-| Manual repo-local | Copy bundled skill | `.agents/skills/improve-codebase-health` | Useful for team-shared repo skills. |
-
-## Plugin vs Skill
-
-| Layer | What It Does |
-| --- | --- |
-| Plugin package | Distribution metadata, command wrapper, install surface, docs. |
-| Skill | The actual agent workflow in `skills/improve-codebase-health/SKILL.md`. |
-| References | Deeper rubrics loaded only when needed: ambiguity, safety, architecture depth, scopes, risk scoring. |
-
-So yes: this repo is a plugin package, and the plugin bundles a skill.
 
 ## Usage
 
