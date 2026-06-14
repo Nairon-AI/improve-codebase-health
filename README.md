@@ -138,6 +138,54 @@ Verification:
 Move tests to checkout outcomes. Keep payment, inventory, and email behind adapters.
 ```
 
+The same finding can include a dependency sketch:
+
+```mermaid
+flowchart LR
+    subgraph Current["Current shape: callers know too much"]
+        WebCheckout["Web checkout route"]
+        MobileCheckout["Mobile checkout route"]
+        AdminRetry["Admin retry job"]
+        Payment["Payment client"]
+        Inventory["Inventory reservation"]
+        Email["Email sender"]
+        Loyalty["Loyalty points"]
+    end
+
+    WebCheckout --> Payment
+    WebCheckout --> Inventory
+    WebCheckout --> Email
+    MobileCheckout --> Payment
+    MobileCheckout --> Inventory
+    MobileCheckout --> Loyalty
+    AdminRetry --> Payment
+    AdminRetry --> Email
+
+    subgraph Proposed["Proposed shape: one deeper interface"]
+        CheckoutFlow["CheckoutFlow"]
+        PayAdapter["Payment adapter"]
+        StockAdapter["Inventory adapter"]
+        NotifyAdapter["Notification adapter"]
+        RewardsAdapter["Rewards adapter"]
+    end
+
+    WebCheckout -.-> CheckoutFlow
+    MobileCheckout -.-> CheckoutFlow
+    AdminRetry -.-> CheckoutFlow
+    CheckoutFlow --> PayAdapter
+    CheckoutFlow --> StockAdapter
+    CheckoutFlow --> NotifyAdapter
+    CheckoutFlow --> RewardsAdapter
+
+    classDef risk fill:#fee2e2,stroke:#dc2626,color:#111827
+    classDef safe fill:#dcfce7,stroke:#16a34a,color:#111827
+    classDef seam fill:#dbeafe,stroke:#2563eb,color:#111827
+
+    class WebCheckout,MobileCheckout,AdminRetry risk
+    class CheckoutFlow seam
+    class PayAdapter,StockAdapter,NotifyAdapter,RewardsAdapter safe
+```
+
 More examples: [docs/gallery.md](docs/gallery.md).
 
 ## Installation
