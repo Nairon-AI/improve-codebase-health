@@ -10,11 +10,11 @@
 </p>
 
 <p align="center">
-  <a href="#health-dimensions">Health Dimensions</a> •
+  <a href="#why-now">Why Now</a> •
   <a href="#what-it-looks-like">What It Looks Like</a> •
   <a href="#installation">Installation</a> •
   <a href="#usage">Usage</a> •
-  <a href="#comparison">Comparison</a>
+  <a href="#how-it-compares">How It Compares</a>
 </p>
 
 <p align="center">
@@ -49,6 +49,23 @@ Tier 3: design required
 
 The point is simple: surface architecture drift without letting agents casually reshape the system.
 
+## Why Now
+
+AI-assisted engineering changes the failure mode.
+
+The old problem was writing code slowly. The new problem is changing code so quickly that system shape gets blurry. A codebase can pass tests and type checks while becoming harder for humans and agents to modify safely.
+
+This plugin gives agents explicit signals for the pain senior engineers usually feel first:
+
+- this name invites the wrong edit
+- this interface leaks too much implementation
+- this test gives confidence in the wrong thing
+- this helper exists because the original pattern was unclear
+- this module is shallow, so every caller carries complexity
+- this cleanup is safe, but that architecture change needs design
+
+The goal is not prettier code. The goal is a codebase that keeps explaining itself as it scales.
+
 ## The Books
 
 | Book | Author | Helps Detect |
@@ -82,6 +99,17 @@ Software engineering principles are timeless. AI-assisted teams need them more, 
 | Dependency Direction | Do dependencies point in an understandable direction? |
 
 Full guide: [docs/health-dimensions.md](docs/health-dimensions.md).
+
+## Practical Use Cases
+
+| Situation | Recommended Run |
+| --- | --- |
+| Before opening a PR | `/improve-codebase-health --scope diff --mode audit` |
+| After a feature lands | `/improve-codebase-health --scope since --since 5 --mode friday-steward` |
+| When a package feels hard to change | `/improve-codebase-health --scope path --path <path> --mode plan-refactor` |
+| Before touching legacy code | `/improve-codebase-health --scope path --path <path> --mode audit` |
+| When agents keep making wrong edits | Audit agent navigability and ambiguity findings |
+| When tests pass but confidence is low | Focus on test confidence and module depth |
 
 ## What It Looks Like
 
@@ -158,13 +186,23 @@ See [docs/getting-started.md](docs/getting-started.md) and [docs/SETUP.md](docs/
 
 ### Platform Guide
 
-| Environment | Preferred Install | Skill Location |
-| --- | --- | --- |
-| Claude Code | Plugin marketplace | Plugin-managed, or `.claude/skills` for repo-local |
-| Codex | Agent-assisted plugin/skill install | `~/.codex/skills` or `.agents/skills` |
-| Cursor / Copilot-style agents | Agent-assisted skill install | `.agents/skills` or tool-specific skill folder |
-| Generic agent skill runner | Local installer | configured skills directory |
-| Manual repo-local | Copy bundled skill | `.agents/skills/improve-codebase-health` |
+| Environment | Preferred Install | Typical Skill Location | Notes |
+| --- | --- | --- | --- |
+| Claude Code | Plugin marketplace | Plugin-managed, or `.claude/skills` | Best first-class plugin path. |
+| Codex | Agent-assisted plugin/skill install | `~/.codex/skills` or `.agents/skills` | Paste the install prompt and let Codex place it. |
+| Cursor / Copilot-style agents | Agent-assisted skill install | `.agents/skills` or tool-specific skill folder | Works when the agent reads `SKILL.md`. |
+| Generic agent skill runner | Local installer | configured skills directory | Use `./scripts/install.sh agents`. |
+| Manual repo-local | Copy bundled skill | `.agents/skills/improve-codebase-health` | Useful for team-shared repo skills. |
+
+## Plugin vs Skill
+
+| Layer | What It Does |
+| --- | --- |
+| Plugin package | Distribution metadata, command wrapper, install surface, docs. |
+| Skill | The actual agent workflow in `skills/improve-codebase-health/SKILL.md`. |
+| References | Deeper rubrics loaded only when needed: ambiguity, safety, architecture depth, scopes, risk scoring. |
+
+So yes: this repo is a plugin package, and the plugin bundles a skill.
 
 ## Usage
 
@@ -206,6 +244,15 @@ Full mode guide: [docs/modes.md](docs/modes.md).
 | `/improve-codebase-health --scope since --since 5 --mode friday-steward` | Review recent work and rank follow-ups. |
 | `/improve-codebase-health --scope repo --mode plan-refactor` | Whole-repo architecture/debt planning, no edits. |
 
+### Mode Matrix
+
+| Mode | Edits? | Best For | Output |
+| --- | --- | --- | --- |
+| `audit` | No | Understanding risk before changing code | Health score and ranked findings |
+| `safe-cleanup` | Tier 1 only | Low-risk cleanup | Patch, verification, leftover risks |
+| `plan-refactor` | No | Architecture or interface work | Design options and recommended plan |
+| `friday-steward` | Tier 1 only | Recurring codebase health review | Cleanup plus follow-up backlog |
+
 ## Configuration
 
 Optional project config:
@@ -223,6 +270,15 @@ safety:
 
 Copy [.improve-codebase-health.example.yaml](.improve-codebase-health.example.yaml) as a starting point.
 
+### Configuration Options
+
+| Setting | Purpose |
+| --- | --- |
+| `ignore` | Exclude generated, vendor, build, or migration files from analysis. |
+| `focus` | Limit review to selected health dimensions. |
+| `severity` | Override severity for project-specific norms. |
+| `safety` | Control auto-fix permission and approval boundaries. |
+
 ## What Linters Miss
 
 Improve Codebase Health does not replace ESLint, Pylint, typecheckers, or tests.
@@ -238,7 +294,7 @@ It catches slower problems:
 - scattered changes across unrelated modules
 - code that agents can plausibly misunderstand
 
-## Comparison
+## How It Compares
 
 | Capability | Improve Codebase Health | Linters / Formatters | Plain Agent Review |
 | --- | :---: | :---: | :---: |
@@ -253,23 +309,41 @@ It catches slower problems:
 
 It is not trying to be a stricter linter. It is trying to make architectural pain explicit enough for agents to work with safely.
 
-## Review Modes At A Glance
+## Agent Behavior Contract
 
-| Mode | Primary Question | Output |
-| --- | --- | --- |
-| Audit | Is this scope safe to change? | Health score, findings, no edits. |
-| Safe Cleanup | What can be improved with tiny blast radius? | Tier 1 patch plus verification. |
-| Plan Refactor | What needs design before code changes? | Ranked Tier 2/3 plan. |
-| Friday Steward | What should we clean after recent feature work? | Tier 1 cleanup plus follow-up backlog. |
-
-## Configuration Options
-
-| Setting | Purpose |
+| Finding Type | Agent Should |
 | --- | --- |
-| `ignore` | Exclude generated, vendor, build, or migration files from analysis. |
-| `focus` | Limit review to selected health dimensions. |
-| `severity` | Override severity for project-specific norms. |
-| `safety` | Control auto-fix permission and approval boundaries. |
+| Tier 0 report-only | Explain the risk, no edits. |
+| Tier 1 auto-safe | Patch only when mode allows, then verify. |
+| Tier 2 ask-first | Propose a patch plan and wait. |
+| Tier 3 design-required | Produce design options, ADR, or deeper plan before implementation. |
+
+Hard stops are intentional: database schema changes, auth/payment/permission boundaries, exported contracts, migrations, and cross-package architecture are not casual cleanup.
+
+## CI/CD Integration
+
+Use it in CI as an agent-driven review step when your environment supports invoking an agent from GitHub Actions.
+
+```yaml
+name: Codebase Health Review
+
+on:
+  pull_request:
+
+jobs:
+  codebase-health:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Run codebase health review
+        run: |
+          echo "Invoke your coding agent with:"
+          echo "/improve-codebase-health --scope diff --mode audit"
+```
+
+See [docs/github-action-example.yml](docs/github-action-example.yml) for a minimal template. Keep CI in audit mode unless your agent environment has explicit approval and verification controls.
 
 ## Project Structure
 
@@ -287,6 +361,23 @@ improve-codebase-health/
 └── assets/
     └── logo.svg
 ```
+
+## Acknowledgments
+
+The framework synthesizes ideas from classic software engineering books, then adapts them for AI-assisted code review:
+
+- Frederick Brooks, The Mythical Man-Month
+- Steve McConnell, Code Complete
+- Martin Fowler, Refactoring
+- Robert C. Martin, Clean Architecture
+- Andrew Hunt and David Thomas, The Pragmatic Programmer
+- Eric Evans, Domain-Driven Design
+- John Ousterhout, A Philosophy of Software Design
+- Titus Winters, Tom Manshreck, and Hyrum Wright, Software Engineering at Google
+- Michael Feathers, Working Effectively with Legacy Code
+- Gerard Meszaros, xUnit Test Patterns
+- Roy Osherove, The Art of Unit Testing
+- James Whittaker, Jason Arbon, and Jeff Carollo, How Google Tests Software
 
 ## License
 
