@@ -195,16 +195,30 @@ More examples: [docs/gallery.md](docs/gallery.md).
 Paste this into your coding agent terminal/session:
 
 ```text
-Install the Improve Codebase Health plugin from https://github.com/Nairon-AI/improve-codebase-health into this repo.
+Install the Improve Codebase Health plugin from https://github.com/Nairon-AI/improve-codebase-health for the current coding agent/repo.
 
-Detect the current agent environment and install it the normal way for that agent:
-- If Claude Code plugin commands are available, install it as a Claude Code plugin.
-- If Codex plugin/skill install is available, install it through Codex.
-- If this repo uses .agents/skills, install the bundled skill there.
-- If this repo uses .claude/skills, install the bundled skill there.
-- If no skill directory exists, create .agents/skills/improve-codebase-health.
+Rules:
+- Do not change product code.
+- Do not overwrite unrelated agent docs, skills, commands, or config.
+- Prefer the agent's native plugin/skill install mechanism.
+- If native plugin install is unavailable, install the bundled skill from `skills/improve-codebase-health`.
+- If an existing `improve-codebase-health` install exists, replace only that skill/plugin folder.
+- Preserve and report any existing repo conventions you detect.
 
-Do not change product code. Preserve existing agent docs and unrelated files. After installing, verify the skill files exist, show the installed path, and tell me how to run /improve-codebase-health.
+Detect and install in this order:
+1. Claude Code: use plugin install if available:
+   `/plugin marketplace add Nairon-AI/improve-codebase-health`
+   `/plugin install improve-codebase-health@improve-codebase-health-marketplace`
+   If slash plugin install cannot run from this context, install repo-local fallback to `.claude/skills/improve-codebase-health` and copy `commands/improve-codebase-health.md` to `.claude/commands/improve-codebase-health.md` if `.claude/commands` exists.
+2. Codex: use the native skill/plugin installer if available. Otherwise install to `.agents/skills/improve-codebase-health` for repo-local use, or `~/.codex/skills/improve-codebase-health` for global use if the user asked for global.
+3. Cursor / Copilot / generic Agent Skills: install to the repo's existing skill folder if present: `.agents/skills`, `.github/skills`, `.cursor/skills`, or tool-specific equivalent. If none exists, create `.agents/skills/improve-codebase-health`.
+4. Gemini / Windsurf / OpenCode / other agents: install to the agent's documented skill directory when known; otherwise install to `.agents/skills/improve-codebase-health` as the portable fallback.
+
+Verification:
+- Confirm `SKILL.md` exists in the installed `improve-codebase-health` folder.
+- Confirm the `references/` files were copied.
+- Confirm the command is available as `/improve-codebase-health` when the agent supports slash commands, or explain the agent-specific invocation if not.
+- Show installed paths, install method used, and any warnings.
 ```
 
 That is the recommended path: let the agent detect the environment and use the native install route.
@@ -228,6 +242,12 @@ Project-local install:
 
 ```bash
 ./scripts/install.sh agents --project
+```
+
+Supported installer targets:
+
+```text
+agents, codex, claude, cursor, copilot, gemini, windsurf, opencode
 ```
 
 See [docs/getting-started.md](docs/getting-started.md) and [docs/SETUP.md](docs/SETUP.md).

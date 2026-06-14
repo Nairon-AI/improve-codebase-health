@@ -11,10 +11,14 @@ usage() {
 Usage: ./scripts/install.sh <platform> [--project]
 
 platform:
-  agents   ~/.agents/skills or .agents/skills
-  codex    ~/.codex/skills or .agents/skills
-  claude   ~/.claude/skills or .claude/skills
-  cursor   ~/.cursor/skills or .agents/skills
+  agents     ~/.agents/skills or .agents/skills
+  codex      ~/.codex/skills or .agents/skills
+  claude     ~/.claude/skills or .claude/skills
+  cursor     ~/.cursor/skills or .agents/skills
+  copilot    ~/.copilot/skills or .github/skills
+  gemini     ~/.gemini/skills or .gemini/skills
+  windsurf   ~/.codeium/windsurf/skills or .windsurf/skills
+  opencode   ~/.config/opencode/skills or .opencode/skills
 
 Examples:
   ./scripts/install.sh agents
@@ -39,6 +43,18 @@ case "${platform}" in
     ;;
   cursor)
     if [[ "${scope}" == "--project" ]]; then target=".agents/skills"; else target="${HOME}/.cursor/skills"; fi
+    ;;
+  copilot)
+    if [[ "${scope}" == "--project" ]]; then target=".github/skills"; else target="${HOME}/.copilot/skills"; fi
+    ;;
+  gemini)
+    if [[ "${scope}" == "--project" ]]; then target=".gemini/skills"; else target="${HOME}/.gemini/skills"; fi
+    ;;
+  windsurf)
+    if [[ "${scope}" == "--project" ]]; then target=".windsurf/skills"; else target="${HOME}/.codeium/windsurf/skills"; fi
+    ;;
+  opencode)
+    if [[ "${scope}" == "--project" ]]; then target=".opencode/skills"; else target="${HOME}/.config/opencode/skills"; fi
     ;;
   *)
     echo "Unknown platform: ${platform}" >&2
