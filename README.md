@@ -288,12 +288,6 @@ improve-codebase-health/
     └── logo.svg
 ```
 
-## Development
-
-```bash
-npm run check
-```
-
 ## License
 
 [MIT](LICENSE)
