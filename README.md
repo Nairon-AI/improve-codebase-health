@@ -2,7 +2,7 @@
 
 # Improve Codebase Health
 
-### Grounded Codebase-health reviews for safer AI-assisted engineering
+### Codebase health review plugin for safer AI-assisted engineering
 
 **Weekly Stewardship + Timeless Engineering Principles + Agent-Readable Architecture**
 _Keep the codebase clear enough that humans and coding agents can change it safely._
@@ -21,7 +21,7 @@ _AI makes code faster to write. It also makes architecture easier to lose touch 
 
 ## What is this?
 
-Improve Codebase Health is a standalone agent skill for scoped code-health reviews. Run it inside a product repo to inspect a branch, path, PR, issue, recent time window, feature area, or whole codebase.
+Improve Codebase Health is a plugin package for scoped code-health reviews. Run it inside a product repo to inspect a branch, path, PR, issue, recent time window, feature area, or whole codebase.
 
 It is built for weekly codebase stewardship. After a week of feature work, the agent reviews what changed, scores code-health risk, applies only boring safe cleanup when allowed, and turns riskier architecture work into explicit plans instead of surprise refactors.
 
@@ -50,15 +50,22 @@ This is not a once-a-quarter cleanup project. It is meant to be embedded in the 
 
 ## Install
 
-Run this prompt inside the target repo using Codex or Claude Code:
+Claude Code plugin install:
 
 ```text
-Install the Improve Codebase Health skill from https://github.com/Nairon-AI/improve-codebase-health into this repo.
+/plugin marketplace add Nairon-AI/improve-codebase-health
+/plugin install improve-codebase-health@improve-codebase-health-marketplace
+```
+
+Codex / repo-agent install prompt:
+
+```text
+Install the Improve Codebase Health plugin from https://github.com/Nairon-AI/improve-codebase-health into this repo.
 
 Do the install cleanly:
 - Read this repo's existing AGENTS.md, CLAUDE.md, README.md, and nearest SKILLS.md first.
 - Preserve existing work. Do not overwrite unrelated files.
-- Install the skill from skills/improve-codebase-health into this repo's normal agent skill location.
+- Install the packaged skill from skills/improve-codebase-health into this repo's normal agent skill location.
 - If this repo uses .agents/skills, install it there.
 - If this repo uses .claude/skills, install it there too.
 - If neither exists, create .agents/skills/improve-codebase-health.
@@ -74,7 +81,7 @@ Then invoke:
 /improve-codebase-health
 ```
 
-This repo ships the actual **skill** at `skills/improve-codebase-health/`, plus a thin command/plugin wrapper for agent environments that support it.
+This repo is a **plugin package**. The actual review logic lives in the bundled skill at `skills/improve-codebase-health/`, with command/plugin metadata for agent environments that support it.
 
 ---
 

@@ -2,7 +2,7 @@
   "name": "@nairon-ai/improve-codebase-health",
   "version": "0.1.0",
   "private": false,
-  "description": "Scoped code-health steward for safer human and AI-assisted engineering.",
+  "description": "Codebase health review plugin grounded in classic software engineering books.",
   "license": "MIT",
   "files": [
     "README.md",
@@ -11,7 +11,8 @@
     "docs",
     "evals",
     "skills",
-    ".codex-plugin"
+    ".codex-plugin",
+    ".claude-plugin"
   ],
   "scripts": {
     "check": "node scripts/check.js"

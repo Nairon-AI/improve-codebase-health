@@ -1,0 +1,18 @@
+{
+  "name": "improve-codebase-health-marketplace",
+  "description": "Marketplace for Improve Codebase Health plugin",
+  "owner": {
+    "name": "Nairon AI"
+  },
+  "plugins": [
+    {
+      "name": "improve-codebase-health",
+      "description": "Codebase health review plugin grounded in classic software engineering books — scoped health scoring, architecture-depth findings, ambiguity diagnostics, safety tiers, and weekly steward workflows.",
+      "version": "0.1.0",
+      "source": "./",
+      "author": {
+        "name": "Nairon AI"
+      }
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "name": "improve-codebase-health",
+  "description": "Codebase health review plugin grounded in classic software engineering books — scoped health scoring, architecture-depth findings, ambiguity diagnostics, safety tiers, and weekly steward workflows.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Nairon AI"
+  },
+  "homepage": "https://github.com/Nairon-AI/improve-codebase-health",
+  "repository": "https://github.com/Nairon-AI/improve-codebase-health",
+  "license": "MIT",
+  "keywords": [
+    "code-quality",
+    "code-review",
+    "architecture",
+    "technical-debt",
+    "agent-skills",
+    "ai-assisted-engineering"
+  ]
+}

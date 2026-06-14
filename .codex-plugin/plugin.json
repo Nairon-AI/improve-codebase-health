@@ -1,11 +1,32 @@
 {
   "name": "improve-codebase-health",
   "version": "0.1.0",
-  "description": "Scoped code-health steward for safer human and AI-assisted engineering.",
-  "skills": [
-    {
-      "name": "improve-codebase-health",
-      "path": "skills/improve-codebase-health/SKILL.md"
-    }
-  ]
+  "description": "Codebase health review plugin grounded in classic software engineering books — scoped health scoring, architecture-depth findings, ambiguity diagnostics, safety tiers, and weekly steward workflows.",
+  "author": {
+    "name": "Nairon AI",
+    "url": "https://github.com/Nairon-AI"
+  },
+  "homepage": "https://github.com/Nairon-AI/improve-codebase-health",
+  "repository": "https://github.com/Nairon-AI/improve-codebase-health",
+  "license": "MIT",
+  "keywords": [
+    "code-quality",
+    "code-review",
+    "architecture",
+    "technical-debt",
+    "agent-skills",
+    "ai-assisted-engineering"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Improve Codebase Health",
+    "shortDescription": "Book-grounded codebase health reviews for AI-assisted engineering",
+    "longDescription": "Codebase health review plugin grounded in classic software engineering books. Produces scoped health scores, architecture-depth findings, ambiguity diagnostics, safety tiers, and weekly steward workflows so humans and coding agents can keep systems safe to change.",
+    "developerName": "Nairon AI",
+    "category": "Coding",
+    "capabilities": [
+      "Interactive"
+    ],
+    "websiteURL": "https://github.com/Nairon-AI/improve-codebase-health"
+  }
 }

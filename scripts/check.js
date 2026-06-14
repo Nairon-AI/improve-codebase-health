@@ -7,6 +7,8 @@ const required = [
   "LICENSE",
   "package.json",
   ".codex-plugin/plugin.json",
+  ".claude-plugin/plugin.json",
+  ".claude-plugin/marketplace.json",
   "commands/improve-codebase-health.md",
   "docs/SETUP.md",
   "evals/evals.json",
@@ -29,6 +31,8 @@ for (const rel of required) {
 
 JSON.parse(fs.readFileSync(path.join(root, "package.json"), "utf8"));
 JSON.parse(fs.readFileSync(path.join(root, ".codex-plugin/plugin.json"), "utf8"));
+JSON.parse(fs.readFileSync(path.join(root, ".claude-plugin/plugin.json"), "utf8"));
+JSON.parse(fs.readFileSync(path.join(root, ".claude-plugin/marketplace.json"), "utf8"));
 JSON.parse(fs.readFileSync(path.join(root, "evals/evals.json"), "utf8"));
 
 if (failed) {
