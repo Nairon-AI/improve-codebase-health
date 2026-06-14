@@ -2,6 +2,23 @@
 
 Improve Codebase Health is a **plugin package**. The actual review logic lives in an agent skill at `skills/improve-codebase-health/`, and the repo includes command/plugin metadata so supported agent environments can expose it as `/improve-codebase-health`.
 
+## One Prompt Install
+
+Paste this into your coding agent:
+
+```text
+Install the Improve Codebase Health plugin from https://github.com/Nairon-AI/improve-codebase-health into this repo.
+
+Detect the current agent environment and install it the normal way for that agent:
+- If Claude Code plugin commands are available, install it as a Claude Code plugin.
+- If Codex plugin/skill install is available, install it through Codex.
+- If this repo uses .agents/skills, install the bundled skill there.
+- If this repo uses .claude/skills, install the bundled skill there.
+- If no skill directory exists, create .agents/skills/improve-codebase-health.
+
+Do not change product code. Preserve existing agent docs and unrelated files. After installing, verify the skill files exist, show the installed path, and tell me how to run /improve-codebase-health.
+```
+
 ## Claude Code Plugin Install
 
 ```text
@@ -10,14 +27,6 @@ Improve Codebase Health is a **plugin package**. The actual review logic lives i
 ```
 
 The plugin packages the `improve-codebase-health` skill plus the slash command wrapper.
-
-## Codex / Repo-aware Agent Install
-
-Ask the agent:
-
-```text
-Install the Improve Codebase Health plugin from Nairon-AI/improve-codebase-health
-```
 
 ## Manual Install In One Product Repo
 

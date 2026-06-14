@@ -13,7 +13,8 @@
   <a href="#health-dimensions">Health Dimensions</a> •
   <a href="#what-it-looks-like">What It Looks Like</a> •
   <a href="#installation">Installation</a> •
-  <a href="#usage">Usage</a>
+  <a href="#usage">Usage</a> •
+  <a href="#comparison">Comparison</a>
 </p>
 
 <p align="center">
@@ -113,19 +114,30 @@ More examples: [docs/gallery.md](docs/gallery.md).
 
 ## Installation
 
+### One Prompt Install
+
+Paste this into your coding agent terminal/session:
+
+```text
+Install the Improve Codebase Health plugin from https://github.com/Nairon-AI/improve-codebase-health into this repo.
+
+Detect the current agent environment and install it the normal way for that agent:
+- If Claude Code plugin commands are available, install it as a Claude Code plugin.
+- If Codex plugin/skill install is available, install it through Codex.
+- If this repo uses .agents/skills, install the bundled skill there.
+- If this repo uses .claude/skills, install the bundled skill there.
+- If no skill directory exists, create .agents/skills/improve-codebase-health.
+
+Do not change product code. Preserve existing agent docs and unrelated files. After installing, verify the skill files exist, show the installed path, and tell me how to run /improve-codebase-health.
+```
+
+That is the recommended path: let the agent detect the environment and use the native install route.
+
 ### Claude Code Plugin
 
 ```text
 /plugin marketplace add Nairon-AI/improve-codebase-health
 /plugin install improve-codebase-health@improve-codebase-health-marketplace
-```
-
-### Codex / Repo-aware Agents
-
-Ask the agent:
-
-```text
-Install the Improve Codebase Health plugin from Nairon-AI/improve-codebase-health
 ```
 
 ### Local Installer
@@ -143,6 +155,16 @@ Project-local install:
 ```
 
 See [docs/getting-started.md](docs/getting-started.md) and [docs/SETUP.md](docs/SETUP.md).
+
+### Platform Guide
+
+| Environment | Preferred Install | Skill Location |
+| --- | --- | --- |
+| Claude Code | Plugin marketplace | Plugin-managed, or `.claude/skills` for repo-local |
+| Codex | Agent-assisted plugin/skill install | `~/.codex/skills` or `.agents/skills` |
+| Cursor / Copilot-style agents | Agent-assisted skill install | `.agents/skills` or tool-specific skill folder |
+| Generic agent skill runner | Local installer | configured skills directory |
+| Manual repo-local | Copy bundled skill | `.agents/skills/improve-codebase-health` |
 
 ## Usage
 
@@ -173,6 +195,16 @@ Modes:
 | `friday-steward` | Audit scoped work, apply Tier 1 fixes, rank larger work. |
 
 Full mode guide: [docs/modes.md](docs/modes.md).
+
+### Slash Command
+
+| Command | Action |
+| --- | --- |
+| `/improve-codebase-health` | Interactive scope and mode picker. |
+| `/improve-codebase-health --scope diff --mode audit` | Review current branch changes only. |
+| `/improve-codebase-health --scope diff --mode safe-cleanup` | Apply Tier 1 fixes only. |
+| `/improve-codebase-health --scope since --since 5 --mode friday-steward` | Review recent work and rank follow-ups. |
+| `/improve-codebase-health --scope repo --mode plan-refactor` | Whole-repo architecture/debt planning, no edits. |
 
 ## Configuration
 
@@ -205,6 +237,39 @@ It catches slower problems:
 - types that allow invalid states
 - scattered changes across unrelated modules
 - code that agents can plausibly misunderstand
+
+## Comparison
+
+| Capability | Improve Codebase Health | Linters / Formatters | Plain Agent Review |
+| --- | :---: | :---: | :---: |
+| Syntax/style feedback | Partial | Yes | Inconsistent |
+| Type/test verification guidance | Yes | Partial | Inconsistent |
+| Structured finding chain | Yes | No | Usually no |
+| Book-grounded engineering principles | Yes | No | Usually implicit |
+| Architecture drift detection | Yes | No | Inconsistent |
+| Ambiguous naming/concept detection | Yes | No | Inconsistent |
+| Safety tier before edits | Yes | No | Usually no |
+| Scoped installable agent workflow | Yes | No | No |
+
+It is not trying to be a stricter linter. It is trying to make architectural pain explicit enough for agents to work with safely.
+
+## Review Modes At A Glance
+
+| Mode | Primary Question | Output |
+| --- | --- | --- |
+| Audit | Is this scope safe to change? | Health score, findings, no edits. |
+| Safe Cleanup | What can be improved with tiny blast radius? | Tier 1 patch plus verification. |
+| Plan Refactor | What needs design before code changes? | Ranked Tier 2/3 plan. |
+| Friday Steward | What should we clean after recent feature work? | Tier 1 cleanup plus follow-up backlog. |
+
+## Configuration Options
+
+| Setting | Purpose |
+| --- | --- |
+| `ignore` | Exclude generated, vendor, build, or migration files from analysis. |
+| `focus` | Limit review to selected health dimensions. |
+| `severity` | Override severity for project-specific norms. |
+| `safety` | Control auto-fix permission and approval boundaries. |
 
 ## Project Structure
 
